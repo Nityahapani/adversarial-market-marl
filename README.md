@@ -11,6 +11,9 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000?style=flat-square)](https://github.com/psf/black)
 [![Checked with mypy](https://img.shields.io/badge/mypy-checked-blue?style=flat-square)](http://mypy-lang.org/)
 [![CI](https://github.com/Nityahapani/adversarial-market-marl/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/adversarial-market-marl/actions)
+[![PyPI version](https://img.shields.io/pypi/v/adversarial-market-marl)](https://pypi.org/project/adversarial-market-marl/)
+[![DOI](https://img.shields.io/badge/-Zenodo-1682D4?style=flat-square&logo=zenodo&logoColor=white)](https://doi.org/10.5281/zenodo.19310428)
+
 
 </div>
 
