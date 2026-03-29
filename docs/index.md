@@ -38,7 +38,7 @@ The central question the framework is designed to answer:
 ## Quick Install
 
 ```bash
-git clone https://github.com/yourusername/adversarial-market-marl.git
+git clone https://github.com/Nityahapani/adversarial-market-marl.git
 cd adversarial-market-marl
 pip install -r requirements.txt
 pip install -e .
