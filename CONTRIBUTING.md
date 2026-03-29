@@ -5,7 +5,7 @@ Thank you for your interest in contributing to the Adversarial Market MARL frame
 ## Development setup
 
 ```bash
-git clone https://github.com/yourusername/adversarial-market-marl.git
+git clone https://github.com/Nityahapani/adversarial-market-marl.git
 cd adversarial-market-marl
 python -m venv venv
 source venv/bin/activate
