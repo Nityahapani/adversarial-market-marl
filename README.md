@@ -10,7 +10,7 @@
 [![Tests](https://img.shields.io/badge/tests-222%20passing-brightgreen?style=flat-square)](tests/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000?style=flat-square)](https://github.com/psf/black)
 [![Checked with mypy](https://img.shields.io/badge/mypy-checked-blue?style=flat-square)](http://mypy-lang.org/)
-[![CI](https://github.com/yourusername/adversarial-market-marl/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/adversarial-market-marl/actions)
+[![CI](https://github.com/Nityahapani/adversarial-market-marl/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/adversarial-market-marl/actions)
 
 </div>
 
