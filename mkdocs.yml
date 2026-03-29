@@ -2,8 +2,8 @@ site_name: adversarial-market-marl
 site_description: >-
   A multi-agent reinforcement learning framework for adversarial market
   microstructure with endogenous information leakage.
-site_url: https://yourusername.github.io/adversarial-market-marl/
-repo_url: https://github.com/yourusername/adversarial-market-marl
+site_url: https://Nityahapani.github.io/adversarial-market-marl/
+repo_url: https://github.com/Nityahapani/adversarial-market-marl
 repo_name: adversarial-market-marl
 edit_uri: edit/main/docs/
 
@@ -84,4 +84,4 @@ extra_javascript:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/yourusername/adversarial-market-marl
+      link: https://github.com/Nityahapani/adversarial-market-marl
