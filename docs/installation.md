@@ -12,7 +12,7 @@
 ## Standard install
 
 ```bash
-git clone https://github.com/yourusername/adversarial-market-marl.git
+git clone https://github.com/Nityahapani/adversarial-market-marl.git
 cd adversarial-market-marl
 
 python -m venv venv
