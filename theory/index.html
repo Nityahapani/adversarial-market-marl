@@ -1,0 +1,1663 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A multi-agent reinforcement learning framework for adversarial market microstructure with endogenous information leakage.">
+      
+      
+      
+        <link rel="canonical" href="https://yourusername.github.io/adversarial-market-marl/theory/">
+      
+      
+        <link rel="prev" href="../configuration/">
+      
+      
+        <link rel="next" href="../agents/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Theory - adversarial-market-marl</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#theoretical-foundations" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="adversarial-market-marl" class="md-header__button md-logo" aria-label="adversarial-market-marl" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            adversarial-market-marl
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Theory
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/yourusername/adversarial-market-marl" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    adversarial-market-marl
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../installation/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Background
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../api/agents/" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../contributing/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Contributing
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../changelog/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="adversarial-market-marl" class="md-nav__button md-logo" aria-label="adversarial-market-marl" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    adversarial-market-marl
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/yourusername/adversarial-market-marl" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    adversarial-market-marl
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Background
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Background
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-market-microstructure-as-an-information-channel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Market Microstructure as an Information Channel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Market Microstructure as an Information Channel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-the-kyle-1985-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 The Kyle (1985) Baseline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-information-theoretic-objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Information-Theoretic Objective
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Information-Theoretic Objective">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-mutual-information-penalty" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Mutual Information Penalty
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-mine-lower-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 MINE Lower Bound
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-sequential-belief-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Sequential Belief Inference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Sequential Belief Inference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-market-makers-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Market Maker's Problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-belief-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Belief Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-adversarial-equilibrium" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Adversarial Equilibrium
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Adversarial Equilibrium">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-game-formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Game Formulation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-ctde-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 CTDE Framework
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-alternating-optimisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Alternating Optimisation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-detectability-phase-transition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Detectability Phase Transition
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Detectability Phase Transition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-formal-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Formal Statement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-the-cost-detectability-trade-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 The Cost-Detectability Trade-off
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-latency-arbitrageurs-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The Latency Arbitrageur's Role
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Expected Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Environment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/training/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Training
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/evaluation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/utils/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utils
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-market-microstructure-as-an-information-channel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Market Microstructure as an Information Channel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Market Microstructure as an Information Channel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-the-kyle-1985-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 The Kyle (1985) Baseline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-information-theoretic-objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Information-Theoretic Objective
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Information-Theoretic Objective">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-mutual-information-penalty" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Mutual Information Penalty
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-mine-lower-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 MINE Lower Bound
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-sequential-belief-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Sequential Belief Inference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Sequential Belief Inference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-market-makers-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Market Maker's Problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-belief-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Belief Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-adversarial-equilibrium" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Adversarial Equilibrium
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Adversarial Equilibrium">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-game-formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Game Formulation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-ctde-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 CTDE Framework
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-alternating-optimisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Alternating Optimisation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-detectability-phase-transition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Detectability Phase Transition
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Detectability Phase Transition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-formal-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Formal Statement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-the-cost-detectability-trade-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 The Cost-Detectability Trade-off
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-latency-arbitrageurs-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The Latency Arbitrageur's Role
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="theoretical-foundations">Theoretical Foundations</h1>
+<h2 id="1-market-microstructure-as-an-information-channel">1. Market Microstructure as an Information Channel</h2>
+<p>We model the limit order book as a <strong>noisy channel</strong> in the sense of Shannon (1948). The execution agent acts as an encoder, transforming its private information (latent type <span class="arithmatex">\(z \in \{0,1\}\)</span>) into an observable signal (order flow <span class="arithmatex">\(F_t\)</span>). The market maker acts as a decoder, performing sequential inference on <span class="arithmatex">\(F_t\)</span> to recover <span class="arithmatex">\(z\)</span>.</p>
+<h3 id="11-the-kyle-1985-baseline">1.1 The Kyle (1985) Baseline</h3>
+<p>Kyle's continuous auction model establishes that an informed trader optimally spreads their trades across time to minimise price impact. In equilibrium:
+- The market maker's pricing rule is linear in order flow
+- The informed trader's strategy is linear in their private signal
+- Information is incorporated gradually into prices</p>
+<p><strong>Our departure:</strong> Kyle's model is static and assumes closed-form optimal strategies. We replace both with learned policies in a dynamic adversarial game.</p>
+<hr />
+<h2 id="2-information-theoretic-objective">2. Information-Theoretic Objective</h2>
+<h3 id="21-mutual-information-penalty">2.1 Mutual Information Penalty</h3>
+<p>The execution agent's reward is augmented with an information-theoretic penalty:</p>
+<div class="arithmatex">\[r_E = -\text{IS}(\pi_E) - \lambda \cdot \hat{I}(z; F_t) - \mu \cdot \text{Pred}(F_t)\]</div>
+<p>where:
+- <span class="arithmatex">\(\text{IS}\)</span> = implementation shortfall (execution cost)
+- <span class="arithmatex">\(\hat{I}(z; F_t)\)</span> = estimated mutual information between the agent's type <span class="arithmatex">\(z\)</span> and its observable order flow <span class="arithmatex">\(F_t\)</span>
+- <span class="arithmatex">\(\text{Pred}(F_t)\)</span> = predictability penalty on flow patterns
+- <span class="arithmatex">\(\lambda, \mu\)</span> = trade-off weights</p>
+<p>This creates a direct tension: executing the order (reducing IS) requires predictable, detectable flow; minimising leakage requires camouflaged, noisy flow.</p>
+<h3 id="22-mine-lower-bound">2.2 MINE Lower Bound</h3>
+<p>Direct MI computation is intractable for continuous distributions. We use the <strong>MINE</strong> (Mutual Information Neural Estimation) lower bound:</p>
+<div class="arithmatex">\[I(X; Y) \geq \mathbb{E}_{p(x,y)}[T_\theta(x,y)] - \log\left(\mathbb{E}_{p(x)p(y)}[e^{T_\theta(x,y)}]\right)\]</div>
+<p>where <span class="arithmatex">\(T_\theta: \mathcal{X} \times \mathcal{Y} \to \mathbb{R}\)</span> is a learned statistics network. The bound is tight as <span class="arithmatex">\(T_\theta\)</span> approaches the log density ratio.</p>
+<p>We use the <strong>MINE-f variant</strong> with an exponential moving average baseline for variance reduction:</p>
+<div class="arithmatex">\[\hat{I}_\text{MINE-f} = \mathbb{E}_{p(x,y)}[T_\theta] - \frac{\mathbb{E}_{p(x)p(y)}[e^{T_\theta}]}{\bar{e}_t}\]</div>
+<p>where <span class="arithmatex">\(\bar{e}_t = \alpha \bar{e}_{t-1} + (1-\alpha) \mathbb{E}[e^{T_\theta}]\)</span>.</p>
+<hr />
+<h2 id="3-sequential-belief-inference">3. Sequential Belief Inference</h2>
+<h3 id="31-market-makers-problem">3.1 Market Maker's Problem</h3>
+<p>The market maker performs Bayesian sequential inference:</p>
+<div class="arithmatex">\[b_t = P(z = 1 \mid \mathcal{F}_t)\]</div>
+<p>where <span class="arithmatex">\(\mathcal{F}_t = \{(\text{side}_s, p_s, q_s, \tau_s)\}_{s \leq t}\)</span> is the full order flow history.</p>
+<p>By Bayes' rule:</p>
+<div class="arithmatex">\[b_t = \frac{f(F_t \mid z=1) \cdot b_{t-1}}{f(F_t \mid z=1) \cdot b_{t-1} + f(F_t \mid z=0) \cdot (1-b_{t-1})}\]</div>
+<p>Rather than assuming parametric forms for <span class="arithmatex">\(f(\cdot \mid z)\)</span>, we learn the full mapping <span class="arithmatex">\(b_t = g_\phi(\mathcal{F}_t)\)</span> end-to-end using a Transformer.</p>
+<h3 id="32-belief-loss">3.2 Belief Loss</h3>
+<p>The market maker's belief model is trained with a regularised binary cross-entropy:</p>
+<div class="arithmatex">\[\mathcal{L}_\phi = \text{BCE}(b_t, z) - \beta \cdot H(b_t)\]</div>
+<p>The entropy term <span class="arithmatex">\(H(b_t) = -b_t \log b_t - (1-b_t)\log(1-b_t)\)</span> penalises overconfidence, preventing the market maker from becoming brittle when the execution agent's strategy shifts.</p>
+<hr />
+<h2 id="4-adversarial-equilibrium">4. Adversarial Equilibrium</h2>
+<h3 id="41-game-formulation">4.1 Game Formulation</h3>
+<p>Define a three-player partially observable stochastic game (POSG):</p>
+<div class="arithmatex">\[\mathcal{G} = \langle \mathcal{S}, \{\mathcal{O}_i\}, \{\mathcal{A}_i\}, P, \{R_i\}, \gamma, T \rangle\]</div>
+<p>where:
+- <span class="arithmatex">\(\mathcal{S}\)</span> = global LOB state
+- <span class="arithmatex">\(\mathcal{O}_i\)</span> = agent <span class="arithmatex">\(i\)</span>'s partial observation
+- <span class="arithmatex">\(\mathcal{A}_i\)</span> = agent <span class="arithmatex">\(i\)</span>'s action space
+- <span class="arithmatex">\(P\)</span> = LOB transition dynamics (price-time priority matching)
+- <span class="arithmatex">\(R_i\)</span> = agent <span class="arithmatex">\(i\)</span>'s reward function
+- <span class="arithmatex">\(T\)</span> = episode horizon</p>
+<p>A Nash equilibrium <span class="arithmatex">\((\pi_E^*, \pi_M^*, \pi_A^*)\)</span> satisfies:</p>
+<div class="arithmatex">\[V_i(\pi_i^*, \pi_{-i}^*) \geq V_i(\pi_i, \pi_{-i}^*) \quad \forall \pi_i, \forall i\]</div>
+<h3 id="42-ctde-framework">4.2 CTDE Framework</h3>
+<p>We use <strong>Centralized Training with Decentralized Execution (CTDE)</strong>:
+- During training: shared critic <span class="arithmatex">\(V(s, a_1, a_2, a_3)\)</span> sees the full global state
+- During execution: each policy <span class="arithmatex">\(\pi_i(a_i \mid o_i)\)</span> uses only its own observation</p>
+<p>This is theoretically grounded in the centralised critic not needing to be deployed, so information sharing during training is permissible.</p>
+<h3 id="43-alternating-optimisation">4.3 Alternating Optimisation</h3>
+<p>Simultaneous gradient updates in adversarial games are known to cause oscillation and divergence (simultaneous descent can cycle around Nash points). We use <strong>alternating optimisation</strong>:</p>
+<p><strong>Phase A</strong> (steps <span class="arithmatex">\(t \in [kT, kT + T_E)\)</span>):
+  - Update <span class="arithmatex">\(\pi_E\)</span> with <span class="arithmatex">\(\pi_M, \pi_A\)</span> frozen
+  - Update <span class="arithmatex">\(T_\theta\)</span> (MINE estimator)</p>
+<p><strong>Phase B</strong> (steps <span class="arithmatex">\(t \in [kT + T_E, (k+1)T)\)</span>):
+  - Update <span class="arithmatex">\(\pi_M, \pi_A\)</span> with <span class="arithmatex">\(\pi_E\)</span> frozen
+  - Update <span class="arithmatex">\(g_\phi\)</span> (belief transformer)</p>
+<p>This mirrors the training of GANs and has convergence guarantees under mild smoothness conditions.</p>
+<hr />
+<h2 id="5-detectability-phase-transition">5. Detectability Phase Transition</h2>
+<h3 id="51-formal-statement">5.1 Formal Statement</h3>
+<p><strong>Conjecture (Detectability Phase Transition):</strong> There exists a critical <span class="arithmatex">\(\lambda^* &gt; 0\)</span> such that:</p>
+<div class="arithmatex">\[\lim_{\lambda \to \lambda^*} D_\text{KL}(P_\text{informed}^{(\lambda)} \| P_\text{noise}) = 0\]</div>
+<p>where <span class="arithmatex">\(P_\text{informed}^{(\lambda)}\)</span> is the order flow distribution induced by the execution agent trained with leakage penalty <span class="arithmatex">\(\lambda\)</span>.</p>
+<p>Below <span class="arithmatex">\(\lambda^*\)</span>: informed flow is statistically detectable (<span class="arithmatex">\(D_\text{KL} &gt; 0\)</span>, market maker has accuracy <span class="arithmatex">\(&gt; 0.5\)</span>).
+Above <span class="arithmatex">\(\lambda^*\)</span>: informed flow is indistinguishable from noise (<span class="arithmatex">\(D_\text{KL} \approx 0\)</span>, market maker accuracy <span class="arithmatex">\(\approx 0.5\)</span>).</p>
+<h3 id="52-the-cost-detectability-trade-off">5.2 The Cost-Detectability Trade-off</h3>
+<p>The trade-off is sharp: execution cost (IS) is monotonically increasing in <span class="arithmatex">\(\lambda\)</span>, while detectability is monotonically decreasing. The optimal <span class="arithmatex">\(\lambda\)</span> depends on the agent's private valuation of information concealment vs execution quality.</p>
+<div class="arithmatex">\[\lambda^* = \arg\min_\lambda \{ \text{IS}(\lambda) + c \cdot D_\text{KL}(\lambda) \}\]</div>
+<p>for some cost weight <span class="arithmatex">\(c &gt; 0\)</span> that encodes the regulatory or strategic penalty for detection.</p>
+<hr />
+<h2 id="6-the-latency-arbitrageurs-role">6. The Latency Arbitrageur's Role</h2>
+<p>The arbitrageur introduces a <strong>second dimension of competition</strong>: time, in addition to information. It exploits the lag between:
+1. New information arriving in the order flow
+2. The market maker's belief update <span class="arithmatex">\(b_t\)</span>
+3. Quote adjustment by the market maker</p>
+<p>Without the arbitrageur, the market maker could adopt a static "always wide spread" strategy that is immune to adverse selection. The arbitrageur punishes excessively wide spreads by sniping them, forcing the market maker to solve a joint problem:</p>
+<div class="arithmatex">\[\min_{\text{spread}} \; \text{AdvSel}(\text{spread}) + \text{Snipe Risk}(\text{spread})\]</div>
+<p>which admits an interior optimum requiring genuine inference rather than a corner solution.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/yourusername/adversarial-market-marl" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
