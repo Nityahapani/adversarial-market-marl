@@ -1,4 +1,3 @@
----
 title: 'adversarial-market-marl: A Multi-Agent Reinforcement Learning
   Framework for Adversarial Market Microstructure with Endogenous
   Information Leakage'
@@ -11,14 +10,14 @@ tags:
   - limit order book
   - finance
 authors:
-  - name: Your Name
-    orcid: 0000-0000-0000-0000
+  - name: Nitya Hapani
+    orcid: 0009-0007-8422-7163
     corresponding: true
     affiliation: 1
 affiliations:
-  - name: Your Institution, Country
+  - name: The Galaxy School, India
     index: 1
-date: 1 January 2025
+date: 29 March 2026
 bibliography: paper.bib
 ---
 
