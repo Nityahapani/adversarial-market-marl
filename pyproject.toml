@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "adversarial-market-marl"
+version = "0.1.0"
+description = "Multi-agent RL framework for adversarial market microstructure with endogenous information leakage"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+keywords = ["reinforcement-learning", "market-microstructure", "multi-agent", "information-theory", "finance"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/adversarial-market-marl"
+Repository = "https://github.com/yourusername/adversarial-market-marl"
+Issues = "https://github.com/yourusername/adversarial-market-marl/issues"
+
+[tool.black]
+line-length = 100
+target-version = ["py310", "py311"]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.mypy]
+python_version = "3.10"
+# Practical mypy config for a torch/gymnasium research codebase:
+# strict mode breaks on untyped third-party libraries (torch, gymnasium, numpy).
+# We check what we can and ignore what we cannot.
+ignore_missing_imports = true
+warn_unused_ignores = false
+warn_return_any = false
+disallow_untyped_decorators = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+
+# Per-module overrides for third-party stubs
+[[tool.mypy.overrides]]
+module = ["torch.*", "gymnasium.*", "numpy.*", "scipy.*", "matplotlib.*", "tensorboard.*", "rich.*", "wandb.*", "omegaconf.*", "hydra.*"]
+ignore_missing_imports = true
+ignore_errors = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+
+[tool.coverage.run]
+source = ["adversarial_market"]
+omit = ["tests/*", "scripts/*"]

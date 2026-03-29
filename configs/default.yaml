@@ -1,0 +1,140 @@
+# ─────────────────────────────────────────────
+# Adversarial Market MARL — Default Configuration
+# ─────────────────────────────────────────────
+
+seed: 42
+device: "cuda"           # "cuda" | "cpu"
+exp_name: "default"
+log_dir: "runs/"
+checkpoint_dir: "checkpoints/"
+eval_interval: 50        # evaluate every N training iterations
+checkpoint_interval: 100
+
+# ─── Environment ─────────────────────────────
+environment:
+  tick_size: 0.01
+  lot_size: 100
+  n_price_levels: 20        # visible LOB depth per side
+  max_steps_per_episode: 390  # one trading day in minutes
+  initial_mid_price: 100.0
+  fundamental_value: 100.0
+  fundamental_vol: 0.02       # annualised vol of fundamental value
+  noise_trader_arrival_rate: 10.0  # Poisson rate (orders/minute)
+  noise_order_size_mean: 5.0       # in lots
+  noise_order_size_std: 2.0
+  latency_ms:
+    execution_agent: 100.0
+    market_maker: 10.0
+    arbitrageur: 1.0
+
+# ─── Agents ──────────────────────────────────
+agents:
+  execution:
+    inventory_lots: 100     # total position to execute (positive = buy)
+    horizon: 390            # steps to complete execution
+    max_order_size: 20      # max lots per order
+    order_types: ["market", "limit"]
+    observation_history: 50  # steps of LOB history in state
+    # Reward weights
+    lambda_leakage: 0.5     # MI penalty weight — KEY parameter for phase transition
+    mu_predictability: 0.1  # pattern predictability penalty weight
+    terminal_inventory_penalty: 100.0  # penalty for unexecuted inventory at horizon
+
+  market_maker:
+    max_spread_ticks: 10
+    max_inventory_lots: 50
+    min_quote_size_lots: 1
+    max_quote_size_lots: 10
+    observation_history: 100  # longer history for inference
+    belief_update_freq: 1     # steps between belief model updates
+    # Reward weights
+    alpha_adverse_selection: 1.0
+    beta_entropy_reg: 0.05    # entropy regularisation on belief
+    gamma_belief_accuracy: 0.2
+
+  arbitrageur:
+    latency_advantage_ms: 1.0
+    max_position_lots: 20
+    hold_period_steps: 1
+    # Reward weights
+    delta_belief_lag: 0.3
+
+# ─── Networks ────────────────────────────────
+networks:
+  # Execution agent actor
+  execution_actor:
+    hidden_dims: [256, 256]
+    activation: "tanh"
+    log_std_init: -0.5
+
+  # Market maker — belief transformer
+  belief_transformer:
+    d_model: 128
+    n_heads: 4
+    n_layers: 4
+    d_ff: 256
+    dropout: 0.1
+    max_seq_len: 200
+    output_dim: 1          # scalar belief b_t
+
+  # Market maker actor (conditioned on belief)
+  mm_actor:
+    hidden_dims: [256, 256]
+    activation: "relu"
+
+  # Arbitrageur actor
+  arb_actor:
+    hidden_dims: [128, 128]
+    activation: "relu"
+
+  # Shared centralized critic
+  shared_critic:
+    hidden_dims: [512, 512, 256]
+    activation: "tanh"
+    use_layer_norm: true
+
+  # MINE mutual information estimator
+  mine:
+    hidden_dims: [256, 256]
+    activation: "relu"
+    ema_decay: 0.99        # moving average baseline for variance reduction
+
+# ─── Training ────────────────────────────────
+training:
+  total_timesteps: 10_000_000
+  n_envs: 8               # parallel environments
+  rollout_length: 2048    # steps per rollout per env
+  n_epochs: 10            # PPO epochs per rollout
+  minibatch_size: 256
+  gamma: 0.99             # discount factor
+  gae_lambda: 0.95        # GAE lambda
+  clip_range: 0.2         # PPO clip epsilon
+  clip_range_vf: null     # value function clip (null = disabled)
+  entropy_coef: 0.01      # policy entropy bonus
+  value_coef: 0.5         # value loss coefficient
+  max_grad_norm: 0.5
+
+  # Optimizer
+  optimizer: "adam"
+  lr_actor: 3.0e-4
+  lr_critic: 1.0e-3
+  lr_mine: 1.0e-4
+  lr_belief: 3.0e-4
+  weight_decay: 1.0e-5
+
+  # Alternating optimization
+  alternating:
+    enabled: true
+    exec_phase_steps: 1000   # steps training execution agent
+    mm_arb_phase_steps: 1000 # steps training MM + arbitrageur
+
+  # Learning rate schedule
+  lr_schedule: "linear"     # "linear" | "cosine" | "constant"
+
+# ─── Logging ─────────────────────────────────
+logging:
+  use_tensorboard: true
+  use_wandb: false
+  wandb_project: "adversarial-market-marl"
+  log_interval: 10          # log every N rollouts
+  verbose: true

@@ -1,0 +1,30 @@
+# Lambda sweep config — used by scripts/sweep_lambda.py
+# Each run in the sweep overrides lambda_leakage
+
+seed: 42
+device: "cuda"
+exp_name: "lambda_sweep"
+
+environment:
+  max_steps_per_episode: 390
+
+agents:
+  execution:
+    inventory_lots: 100
+    horizon: 390
+    # lambda_leakage is injected by sweep script per run
+
+training:
+  total_timesteps: 3_000_000
+  n_envs: 4
+
+# Sweep grid (parsed by sweep_lambda.py)
+sweep:
+  parameter: "agents.execution.lambda_leakage"
+  values: [0.0, 0.1, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0]
+  seeds: [42, 123, 7]
+  metrics:
+    - "eval/kl_divergence_informed_noise"
+    - "eval/market_maker_belief_accuracy"
+    - "eval/execution_implementation_shortfall"
+    - "eval/execution_total_cost"

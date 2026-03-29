@@ -1,0 +1,49 @@
+# Fast debug config — runs in minutes on CPU
+# Inherits all defaults; overrides listed below
+
+seed: 0
+device: "cpu"
+exp_name: "debug"
+eval_interval: 5
+checkpoint_interval: 10
+
+environment:
+  max_steps_per_episode: 50
+  noise_trader_arrival_rate: 5.0
+
+agents:
+  execution:
+    inventory_lots: 20
+    horizon: 50
+    observation_history: 10
+  market_maker:
+    observation_history: 20
+  arbitrageur: {}
+
+networks:
+  belief_transformer:
+    d_model: 32
+    n_heads: 2
+    n_layers: 2
+    d_ff: 64
+    max_seq_len: 30
+  shared_critic:
+    hidden_dims: [64, 64]
+  execution_actor:
+    hidden_dims: [64, 64]
+  mm_actor:
+    hidden_dims: [64, 64]
+  arb_actor:
+    hidden_dims: [64, 64]
+  mine:
+    hidden_dims: [64, 64]
+
+training:
+  total_timesteps: 50_000
+  n_envs: 2
+  rollout_length: 128
+  n_epochs: 4
+  minibatch_size: 32
+  alternating:
+    exec_phase_steps: 200
+    mm_arb_phase_steps: 200
